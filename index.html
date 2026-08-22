@@ -135,10 +135,7 @@
         .hero::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: 
                 linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px),
                 linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px);
@@ -263,6 +260,61 @@
         }
 
         .wall-divider span { color: var(--gold); font-size: 1.2rem; }
+
+        /* ===== 村口大石头特写 ===== */
+        .stone-showcase {
+            position: relative;
+            width: 100%;
+            background: var(--wall-dark);
+        }
+
+        .stone-img-container {
+            width: 100%;
+            height: 55vh;
+            min-height: 400px;
+            max-height: 600px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .stone-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 30%;
+        }
+
+        .stone-img-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 150px;
+            background: linear-gradient(to top, var(--wall-dark), transparent);
+        }
+
+        .stone-caption {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            background: linear-gradient(180deg, var(--wall-dark), var(--wall-red));
+            color: var(--white);
+            position: relative;
+        }
+
+        .stone-caption h2 {
+            font-size: 2.2rem;
+            color: var(--gold-light);
+            letter-spacing: 6px;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .stone-caption p {
+            color: rgba(255,255,255,0.7);
+            font-size: 1.05rem;
+            letter-spacing: 2px;
+        }
 
         /* ===== 通用 ===== */
         .container {
@@ -499,17 +551,21 @@
         .feature-img {
             width: 100%;
             height: 380px;
-            background: linear-gradient(135deg, var(--wall-red), var(--wall-dark));
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 4rem;
             box-shadow: 0 10px 40px rgba(139,26,26,0.2);
             position: relative;
             overflow: hidden;
             border: 3px solid rgba(212,168,67,0.3);
+            background: linear-gradient(135deg, var(--wall-red), var(--wall-dark));
+        }
+
+        .feature-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            position: relative;
+            z-index: 2;
         }
 
         .feature-img::before {
@@ -520,6 +576,8 @@
                 linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px),
                 linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px);
             background-size: 30px 15px;
+            z-index: 3;
+            pointer-events: none;
         }
 
         .feature-content h3 {
@@ -643,12 +701,22 @@
             padding: 2rem;
             border-left: 4px solid var(--wall-red);
             transition: all 0.3s;
+            overflow: hidden;
         }
 
         .heritage-card:hover {
             transform: translateX(5px);
             box-shadow: 0 8px 25px rgba(139,26,26,0.1);
             border-left-color: var(--gold);
+        }
+
+        .heritage-img {
+            width: calc(100% + 4rem);
+            height: 200px;
+            object-fit: cover;
+            margin: -2rem -2rem 1.5rem -2rem;
+            border-radius: 8px 8px 0 0;
+            display: block;
         }
 
         .heritage-card h4 {
@@ -789,12 +857,15 @@
             .hero h1 { font-size: 2.2rem; letter-spacing: 2px; }
             .hero h1 span { letter-spacing: 3px; }
             .hero-sub { font-size: 0.9rem; }
+            .stone-img-container { height: 40vh; min-height: 250px; }
+            .stone-caption h2 { font-size: 1.5rem; letter-spacing: 3px; }
             .feature-row, .feature-row.reverse {
                 grid-template-columns: 1fr;
                 direction: ltr;
                 gap: 2rem;
             }
             .feature-row.reverse > * { direction: ltr; }
+            .feature-img { height: 260px; }
             .section { padding: 3rem 0; }
             .section-header h2 { font-size: 1.8rem; }
             .greatwall-grid { grid-template-columns: 1fr; }
@@ -802,6 +873,7 @@
             .hero-btn-primary, .hero-btn-secondary { width: 100%; max-width: 280px; }
             .story-text { column-count: 1; }
             .story-quote { padding: 2rem 1.5rem; }
+            .heritage-img { height: 160px; }
         }
 
         /* ===== 动画 ===== */
@@ -856,6 +928,17 @@
                 <a href="#greatwall" class="hero-btn-primary">探寻明长城</a>
                 <a href="#overview" class="hero-btn-secondary">走进北营子</a>
             </div>
+        </div>
+    </section>
+
+    <!-- 村口大石头特写 -->
+    <section class="stone-showcase">
+        <div class="stone-img-container">
+            <img src="./stone.jpg" alt="长城人家·北营子村口地标">
+        </div>
+        <div class="stone-caption">
+            <h2>长城人家 · 北营子</h2>
+            <p>河北省乡村旅游重点村 · 长城国家文化公园</p>
         </div>
     </section>
 
@@ -954,46 +1037,39 @@
             </div>
 
             <div class="feature-row fade-in">
-                <div class="feature-img">🏔️</div>
-                <div class="feature-content">
-                    <h3>角山长城</h3>
-                    <p>村北角山长城如巨龙盘踞山巅，烽火台巍然屹立。角山是明代万里长城从老龙头起跨越的第一座高峰，素有"万里长城第一山"的美称，"瑞莲捧日""山寺雨晴""角山云海""栖贤佛光"被称为"角山四奇"。</p>
-                    <ul class="feature-list">
-                        <li>推窗见长城，抬头望烽火</li>
-                        <li>角山长城如巨龙盘踞，壮丽苍茫</li>
-                        <li>四季分明，长城秋色尤为壮美</li>
-                    </ul>
+                <div class="feature-img">
+                    <img src="./mantanghong.jpg" alt="满堂红满族文化空间">
                 </div>
-            </div>
-
-            <div class="feature-row reverse fade-in">
-                <div class="feature-img">🎭</div>
                 <div class="feature-content">
                     <h3>满族风情</h3>
-                    <p>北营子村满族人口占65%，满族文化风情浓郁。村内满族风情大院青砖黛瓦、飞檐斗拱，箭弩骑具、碑文原拓、满族刺绣等文史元素生动融入日常。</p>
+                    <p>北营子村满族人口占65%，满族文化风情浓郁。村内"满堂红"等满族风情空间青砖黛瓦、飞檐斗拱，箭弩骑具、碑文原拓、满族刺绣等文史元素生动融入日常。</p>
                     <ul class="feature-list">
                         <li>满族风情大院：明清建筑风格，满族老物件陈列</li>
-                        <li>"满堂红"：满族文化展示空间</li>
+                        <li>"满堂红"：满族文化展示与餐饮体验空间</li>
                         <li>传统美食：山海关荤锅、八大碗、桲椤叶饼</li>
                     </ul>
                 </div>
             </div>
 
-            <div class="feature-row fade-in">
-                <div class="feature-img">🚶</div>
+            <div class="feature-row reverse fade-in">
+                <div class="feature-img">
+                    <img src="./museum-chuangguandong.jpg" alt="闯关东第一村展区">
+                </div>
                 <div class="feature-content">
                     <h3>闯关东文化</h3>
-                    <p>北营子村历史上被称为"闯关东第一村"。无数人从这里出关北上，踏上闯关东的艰辛旅程。村庄承载着厚重的移民记忆，是研究闯关东历史的重要节点。</p>
+                    <p>北营子村历史上被称为"闯关东第一村"。无数人从这里出关北上，踏上闯关东的艰辛旅程。村史馆内"闯关东第一村"展区以大量老照片和实物，再现了那段波澜壮阔的移民史。</p>
                     <ul class="feature-list">
-                        <li>"闯关东"主题特色文化墙</li>
+                        <li>"闯关东第一村"主题展：老照片、老物件真实再现</li>
                         <li>村史馆记录闯关东历史脉络</li>
                         <li>长城内外移民文化的交汇见证</li>
                     </ul>
                 </div>
             </div>
 
-            <div class="feature-row reverse fade-in">
-                <div class="feature-img">🏠</div>
+            <div class="feature-row fade-in">
+                <div class="feature-img">
+                    <img src="./culture-wall.jpg" alt="长城人家·北营子文化墙">
+                </div>
                 <div class="feature-content">
                     <h3>长城人家民宿</h3>
                     <p>北营子村积极打造"长城人家"特色文化主题村落，将长城文化与墙画相结合，发展多元化旅游新业态。现有特色精品民宿12家，床位数十张，为游客提供长城脚下的生活体验。</p>
@@ -1045,20 +1121,23 @@
             </div>
             <div class="heritage-grid">
                 <div class="heritage-card fade-in">
+                    <img src="./museum-outside.jpg" alt="北营子村村史馆外观" class="heritage-img">
                     <h4>📚 北营子村村史馆</h4>
-                    <p>秦皇岛市首家经专家认证的村级史馆，坐落于寻常农家院落。馆内收藏石碑、石臼、墙基石、长城砖等实物，设有"北翼风云""北营过往""汉风满韵""浅山福地"四个展区。</p>
+                    <p>秦皇岛市首家经专家认证的村级史馆，坐落于寻常农家院落。青砖灰瓦的院落外观古朴典雅，馆内收藏石碑、石臼、墙基石、长城砖等实物，设有"北翼风云""北营过往""汉风满韵""浅山福地"四个展区。</p>
                 </div>
                 <div class="heritage-card fade-in fade-in-delay-1">
-                    <h4>🏯 腰铺九号敌台</h4>
-                    <p>明万历年间增建，是山海关境内43座敌台之一，与南侧北翼城呈犄角态势。2020年文物部门对敌台及其南北两侧近千米古长城进行保护维修和加固。</p>
+                    <img src="./museum-beiying.jpg" alt="村史馆北营过往展区" class="heritage-img">
+                    <h4>🏯 北营过往展</h4>
+                    <p>村史馆内"北营过往"展区以丰富的图文资料和实物展品，系统展示了北营子村从明代北翼城到现代美丽乡村的历史变迁，是了解村庄历史的重要窗口。</p>
                 </div>
                 <div class="heritage-card fade-in fade-in-delay-2">
-                    <h4>🕳️ 战备地道</h4>
-                    <p>村内保留有战备地道遗址，是特殊历史时期的重要遗存。地道纵横交错，见证了北营子村在不同历史阶段的独特记忆，具有极高的历史教育价值。</p>
+                    <img src="./academy.jpg" alt="山海关长城书院" class="heritage-img">
+                    <h4>📖 山海关长城书院</h4>
+                    <p>长城沿线新时代文明实践带的重要组成部分，青砖黛瓦的建筑风格与长城文化相得益彰，是长城党建示范带上的文化地标，承载着传播长城文化、弘扬民族精神的重要使命。</p>
                 </div>
                 <div class="heritage-card fade-in fade-in-delay-3">
-                    <h4>🏛️ 人民公社大礼堂</h4>
-                    <p>村内保留人民公社旧址、大礼堂、卫生院、关帝庙等各时期历史遗存，完整呈现了从古代军事要塞到现代乡村社区的历史变迁轨迹。</p>
+                    <h4>🕳️ 战备地道</h4>
+                    <p>村内保留有战备地道遗址，是特殊历史时期的重要遗存。地道纵横交错，见证了北营子村在不同历史阶段的独特记忆，具有极高的历史教育价值。</p>
                 </div>
             </div>
         </div>
@@ -1120,7 +1199,7 @@
 
         const statNumbers = document.querySelectorAll('.stat-item h3');
         const statsSection = document.querySelector('.stats');
-        let animated = false;
+      let animated = false;
 
         const statsObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -1128,8 +1207,7 @@
                     animated = true;
                     statNumbers.forEach(num => {
                         const finalText = num.textContent;
-                        const hasUnit = /[户人%年家]/.test(finalText);
-                        const numericValue = parseInt(finalText.replace(/\D/g, ''));
+                        const numericValue = parseInt(finalText.replace(/[^0-9]/g, ''));
                         let current = 0;
                         const increment = numericValue / 60;
                         const timer = setInterval(() => {
