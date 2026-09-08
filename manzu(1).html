@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>满族风情 · 北营子村</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"PingFang SC","Microsoft YaHei",sans-serif; background:#fdf8f3; color:#1a1a1a; }
+  .wrap { max-width:860px; margin:0 auto; padding:0 20px 60px; }
+  .top { display:flex; align-items:center; gap:14px; padding:16px 20px; background:#5c0f0f; color:#fff; position:sticky; top:0; z-index:10; }
+  .top a { color:#e8c87a; text-decoration:none; font-size:15px; white-space:nowrap; }
+  .top h1 { font-size:18px; letter-spacing:2px; }
+  h2.title { font-size:24px; color:#5c0f0f; margin:32px 0 4px; letter-spacing:2px; }
+  .slogan { color:#999; font-size:13px; margin-bottom:22px; letter-spacing:1px; }
+  p { font-size:15px; line-height:2; color:#444; margin:12px 0; }
+  p b, h4 { color:#8b1a1a; }
+  h4 { font-size:16px; margin:20px 0 4px; }
+  ul { padding-left:20px; margin:8px 0; color:#444; font-size:14.5px; line-height:2; }
+  li { margin:4px 0; }
+  img.full { width:100%; border-radius:12px; margin:14px 0; display:block; }
+  .ph { display:none; }
+  .timeline { border-left:3px solid #d4a843; padding-left:16px; margin:14px 0; }
+  .timeline p { margin:10px 0; }
+  .timeline b { color:#5c0f0f; }
+  #lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:99; align-items:center; justify-content:center; cursor:pointer; }
+  #lightbox.show { display:flex; }
+  #lightbox img { max-width:94%; max-height:90%; border-radius:8px; }
+</style>
+</head>
+<body>
+<div class="top"><span id="back"></span><h1>北营子村 · 满族风情</h1></div>
+<div class="wrap">
+
+  <h2 class="title">满族风情</h2>
+  <div class="slogan">全村满族人口约占65%，村民大多为北翼城驻军后裔</div>
+  <p>村内"满堂红"等满族风情空间青砖黛瓦、飞檐斗拱，箭弩骑具、碑文原拓、满族刺绣等文史元素融入日常。</p>
+  <ul>
+    <li>满族风情大院：明清建筑风格，满族老物件陈列</li>
+    <li>"满堂红"：满族文化展示与餐饮体验空间</li>
+    <li>传统美食：山海关荤锅、八大碗、桲椤叶饼</li>
+  </ul>
+<div class="ph">mantanghong.jpg</div>
+</div>
+<div id="lightbox"></div>
+<script>
+var LB = document.getElementById('lightbox');
+var LBIMG = document.createElement('img');
+LB.appendChild(LBIMG);
+function show(src){ LBIMG.src = src; LB.classList.add('show'); }
+LB.onclick = function(){ LB.classList.remove('show'); };
+// 把 .ph 占位符换成真照片
+var phs = document.querySelectorAll('.ph');
+for (var i = 0; i < phs.length; i++) {
+  var d = phs[i];
+  var im = document.createElement('img');
+  im.className = 'full';
+  im.src = './' + d.textContent.trim();
+  im.onclick = function(){ show(this.src); };
+  d.parentNode.replaceChild(im, d);
+}
+// 返回首页链接
+var back = document.getElementById('back');
+var a = document.createElement('a');
+a.href = 'index.html';
+a.textContent = '← 返回首页';
+back.parentNode.replaceChild(a, back);
+</script>
+</body>
+</html>

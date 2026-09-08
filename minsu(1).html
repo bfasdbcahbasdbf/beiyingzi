@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>长城人家民宿 · 北营子村</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"PingFang SC","Microsoft YaHei",sans-serif; background:#fdf8f3; color:#1a1a1a; }
+  .wrap { max-width:860px; margin:0 auto; padding:0 20px 60px; }
+  .top { display:flex; align-items:center; gap:14px; padding:16px 20px; background:#5c0f0f; color:#fff; position:sticky; top:0; z-index:10; }
+  .top a { color:#e8c87a; text-decoration:none; font-size:15px; white-space:nowrap; }
+  .top h1 { font-size:18px; letter-spacing:2px; }
+  h2.title { font-size:24px; color:#5c0f0f; margin:32px 0 4px; letter-spacing:2px; }
+  .slogan { color:#999; font-size:13px; margin-bottom:22px; letter-spacing:1px; }
+  p { font-size:15px; line-height:2; color:#444; margin:12px 0; }
+  p b, h4 { color:#8b1a1a; }
+  h4 { font-size:16px; margin:20px 0 4px; }
+  ul { padding-left:20px; margin:8px 0; color:#444; font-size:14.5px; line-height:2; }
+  li { margin:4px 0; }
+  img.full { width:100%; border-radius:12px; margin:14px 0; display:block; }
+  .ph { display:none; }
+  .timeline { border-left:3px solid #d4a843; padding-left:16px; margin:14px 0; }
+  .timeline p { margin:10px 0; }
+  .timeline b { color:#5c0f0f; }
+  #lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:99; align-items:center; justify-content:center; cursor:pointer; }
+  #lightbox.show { display:flex; }
+  #lightbox img { max-width:94%; max-height:90%; border-radius:8px; }
+</style>
+</head>
+<body>
+<div class="top"><span id="back"></span><h1>北营子村 · 长城人家民宿</h1></div>
+<div class="wrap">
+
+  <h2 class="title">长城人家民宿</h2>
+  <div class="slogan">在长城脚下住一晚</div>
+  <p>依托长城国家文化公园建设，北营子村打造"长城人家"特色文化主题村落，将长城文化与墙画相结合。现有特色精品民宿12家，床位数十张。</p>
+  <ul>
+    <li>12家特色精品民宿，白墙灰瓦古香古色</li>
+    <li>大食堂、农家院等各类餐饮饭店</li>
+    <li>融合传统与现代的"砖居"等主题小院</li>
+  </ul>
+  <p>山海关长城风景道穿村而过，全长10公里，总投资1.35亿元，串联起古城、角山景区及沿线村庄。北营子村是距离山海关中国长城博物馆最近的村庄。</p>
+<div class="ph">culture-wall.jpg</div>
+<div class="ph">restaurant.jpg</div>
+</div>
+<div id="lightbox"></div>
+<script>
+var LB = document.getElementById('lightbox');
+var LBIMG = document.createElement('img');
+LB.appendChild(LBIMG);
+function show(src){ LBIMG.src = src; LB.classList.add('show'); }
+LB.onclick = function(){ LB.classList.remove('show'); };
+// 把 .ph 占位符换成真照片
+var phs = document.querySelectorAll('.ph');
+for (var i = 0; i < phs.length; i++) {
+  var d = phs[i];
+  var im = document.createElement('img');
+  im.className = 'full';
+  im.src = './' + d.textContent.trim();
+  im.onclick = function(){ show(this.src); };
+  d.parentNode.replaceChild(im, d);
+}
+// 返回首页链接
+var back = document.getElementById('back');
+var a = document.createElement('a');
+a.href = 'index.html';
+a.textContent = '← 返回首页';
+back.parentNode.replaceChild(a, back);
+</script>
+</body>
+</html>
