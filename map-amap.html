@@ -16,7 +16,10 @@
   #container { flex:1; }
   .info-win { font-size:13px; line-height:1.7; color:#3a3226; max-width:240px; }
   .info-win b { color:#8b1a1a; }
-  .notice { position:absolute; top:12px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,.65); color:#fff; padding:6px 16px; border-radius:20px; font-size:12px; z-index:9; display:none; }
+  .notice { position:absolute; top:12px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,.65); color:#fff; padding:6px 16px; border-radius:20px; font-size:12px; z-index:9; display:none; white-space:nowrap; }
+  .errbox { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:#fff; border-radius:14px; padding:28px 32px; max-width:420px; width:88%; box-shadow:0 8px 30px rgba(0,0,0,.2); z-index:20; display:none; font-size:14px; line-height:2; color:#444; }
+  .errbox h3 { color:#c0392b; margin-bottom:10px; font-size:17px; }
+  .errbox code { background:#f5f0e6; padding:1px 6px; border-radius:4px; font-size:12.5px; color:#8b1a1a; }
 </style>
 </head>
 <body>
@@ -26,6 +29,7 @@
 </div>
 <div id="container">
   <div class="notice" id="notice">正在自动定位…</div>
+  <div class="errbox" id="errbox"></div>
 </div>
 
 <!-- 第1步：把下面引号里的内容换成你在高德开放平台申请的安全密钥 -->
@@ -133,6 +137,38 @@ for (const k in THEMES) {
   tabsBox.appendChild(b);
 }
 
+// ===== 错误检测：地图打不开时给出明确原因 =====
+function showErr(title, msgs){
+  const box = document.getElementById("errbox");
+  box.innerHTML = "<h3>" + title + "</h3>" + msgs.map(x => "<p>· " + x + "</p >").join("");
+  box.style.display = "block";
+}
+setTimeout(() => {
+  if (typeof AMap === "undefined") {
+    showErr("地图加载失败，常见原因：", [
+      "Key 没填或填错了 —— 检查两处：<code>key=你的KEY</code> 和 <code>securityJsCode</code>",
+      "安全密钥（securityJsCode）填的是不是 Key —— 两个不一样，别搞混",
+      "申请 Key 时服务平台必须选 <code>Web端(JS API)</code>",
+      "如果 Key 设了域名白名单，要把 <code>bfasdbcahbasdbf.github.io</code> 加进去"
+    ]);
+    notice.style.display = "none";
+    return;
+  }
+  if (document.getElementById("errbox").style.display !== "block") {
+    try { initMap(); }
+    catch(e) {
+      showErr("地图初始化失败，常见原因：", [
+        "Key 填错了，或安全密钥（securityJsCode）没配对",
+        "申请 Key 时服务平台必须选 <code>Web端(JS API)</code>",
+        "Key 设置了域名白名单 —— 把 <code>bfasdbcahbasdbf.github.io</code> 加进去，或暂时留空",
+        "把浏览器报错截图发给队友看看"
+      ]);
+      notice.style.display = "none";
+    }
+  }
+}, 2500);
+
+function initMap(){
 map = new AMap.Map("container", { zoom: 16, center: THEMES.village.center });
 
 // 自动定位三个主题的地名（搜索失败就用备用坐标，不影响使用）
@@ -151,6 +187,7 @@ for (const k in THEMES) {
     }
   });
 }
+}  // initMap 结束
 </script>
 </body>
 </html>
