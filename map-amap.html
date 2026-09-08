@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -9,185 +9,41 @@
   html,body { height:100%; }
   body { font-family:"PingFang SC","Microsoft YaHei",sans-serif; display:flex; flex-direction:column; }
   .topbar { display:flex; align-items:center; gap:12px; padding:10px 16px; background:#5c0f0f; color:#fff; flex-wrap:wrap; z-index:10; }
-  .topbar a { color:#fff; text-decoration:none; font-size:14px; }
-  .tabs { display:flex; gap:8px; margin-left:auto; flex-wrap:wrap; }
-  .tabs button { border:none; border-radius:20px; padding:6px 16px; background:rgba(255,255,255,.18); color:#fff; cursor:pointer; font-size:14px; }
-  .tabs button.active { background:#d4a843; color:#5c0f0f; font-weight:bold; }
-  #container { flex:1; }
-  .info-win { font-size:13px; line-height:1.7; color:#3a3226; max-width:240px; }
-  .info-win b { color:#8b1a1a; }
-  .notice { position:absolute; top:12px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,.65); color:#fff; padding:6px 16px; border-radius:20px; font-size:12px; z-index:9; display:none; white-space:nowrap; }
-  .errbox { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:#fff; border-radius:14px; padding:28px 32px; max-width:420px; width:88%; box-shadow:0 8px 30px rgba(0,0,0,.2); z-index:20; display:none; font-size:14px; line-height:2; color:#444; }
-  .errbox h3 { color:#c0392b; margin-bottom:10px; font-size:17px; }
-  .errbox code { background:#f5f0e6; padding:1px 6px; border-radius:4px; font-size:12.5px; color:#8b1a1a; }
+  .topbar a { color:#e8c87a; text-decoration:none; font-size:14px; }
+  .topbar .hint { margin-left:auto; font-size:12px; color:#d4a843; }
+  #map-frame { flex:1; border:none; width:100%; display:block; }
+  /* 地图加载失败提示 */
+  .fallback { display:none; position:absolute; inset:60px 20px 20px; background:#fff; border-radius:14px; padding:28px; text-align:center; color:#555; font-size:14px; line-height:2; }
+  .fallback a { color:#8b1a1a; }
 </style>
 </head>
 <body>
 <div class="topbar">
   <a href=" ">← 返回首页</a >
-  <div class="tabs" id="tabs"></div>
-</div>
-<div id="container">
-  <div class="notice" id="notice">正在自动定位…</div>
-  <div class="errbox" id="errbox"></div>
+  <span class="hint">百度地图 · 可直接缩放拖动</span>
 </div>
 
-<!-- 第1步：把下面引号里的内容换成你在高德开放平台申请的安全密钥 -->
-<script>
-  window._AMapSecurityConfig = { securityJsCode: '你的安全密钥' };
-</script>
-<!-- 第2步：把 key= 后面换成你的 Key；plugin 已带上地址解析插件，别删 -->
-<script src="https://webapi.amap.com/maps?v=2.0&key=你的KEY&plugin=AMap.Geocoder"></script>
+<!-- 百度地图嵌入：这就是你分享得到的 j.map.baidu.com 短链 -->
+<iframe id="map-frame" src="https://j.map.baidu.com/33/MMDM"
+        allowfullscreen="true" loading="lazy"></iframe>
+
+<div class="fallback" id="fallback">
+  <p>地图加载失败 😢</p >
+  <p>请在<b>电脑浏览器</b>中打开本页面，或<br>
+  <a href="https://j.map.baidu.com/33/MMDM" target="_blank">点这里直接打开百度地图</a ></p >
+</div>
 
 <script>
-/* ====== 主题数据说明 ======
-   place: 地名，地图会自动搜索定位（不需要你填坐标！）
-   center: 万一搜索失败的备用坐标（大致位置）
-   points 里的 offset: 相对主题中心的偏移量（经纬度），约 0.001 ≈ 100 米。
-   点位不准的话，改 offset 就行，比如向东挪就把经度调大 0.001。 */
-const THEMES = {
-  village: {
-    name: "北营子村",
-    place: "河北省秦皇岛市山海关区孟姜镇北营子村",
-    center: [119.753, 40.001],
-    zoom: 16,
-    points: [
-      {name:"村口石刻", desc:""长城人家·北营子"地标石，打卡第一站。", offset:[0.001, -0.002]},
-      {name:"北营子村村史馆", desc:"四个展区：北翼风云、北营过往、汉风满韵、浅山福地。", offset:[0, 0]},
-      {name:"满堂红（满族风情）", desc:"满族文化展示与餐饮体验空间。", offset:[-0.001, 0.001]},
-      {name:"长城保护驿站", desc:"山海关区首个长城保护驿站。", offset:[0.002, 0]},
-      {name:"山海关长城书院", desc:"长城文化研究与传播基地。", offset:[0.001, 0.002]}
-    ]
-  },
-  jiaoshan: {
-    name: "角山长城",
-    place: "角山长城景区",
-    center: [119.724, 40.020],
-    zoom: 15,
-    points: [
-      {name:"角山长城景区入口", desc:"登长城起点，登顶约40分钟。", offset:[0, 0]},
-      {name:"角山长城", desc:"明长城翻越角山的一段，可俯瞰山海关全景。", offset:[0, 0.002]},
-      {name:"大平顶", desc:"角山主峰，视野最佳。", offset:[-0.001, 0.004]}
-    ]
-  },
-  museum: {
-    name: "长城博物馆",
-    place: "山海关中国长城博物馆",
-    center: [119.720, 40.024],
-    zoom: 15,
-    points: [
-      {name:"出发：北营子村", desc:"全程约1-2公里，步行或自驾均可。", offset:null},
-      {name:"山海关中国长城博物馆", desc:"北营子村是距离它最近的村庄，馆区值得留半天。", offset:[0, 0]},
-      {name:"角山长城（顺游）", desc:"博物馆紧邻角山，可安排同日游览。", offset:[0.004, -0.004]}
-    ]
-  }
-};
-
-/* ====== 下面不用改 ====== */
-let map, markers = [], lines = [], geocoder;
-const tabsBox = document.getElementById("tabs");
-const notice = document.getElementById("notice");
-
-// 实际使用的坐标（定位成功后更新）
-const located = {};
-
-function clearAll(){
-  markers.forEach(m => m.setMap(null));
-  lines.forEach(l => l.setMap(null));
-  markers = []; lines = [];
-}
-function themeCenter(key){
-  return located[key] || THEMES[key].center;
-}
-function render(key){
-  const t = THEMES[key];
-  clearAll();
-  t.points.forEach(p => {
-    // offset 为 null 表示"用另一个主题的定位点"（出发地）
-    let pos;
-    if (p.offset === null) pos = themeCenter("village");
-    else {
-      const c = themeCenter(key);
-      pos = [c[0] + p.offset[0], c[1] + p.offset[1]];
+// 30 秒后地图还没加载出来（iframe 内出现百度错误页高度异常时人工处理），显示兜底提示
+setTimeout(function(){
+  try {
+    var f = document.getElementById("map-frame");
+    // 无法跨域读取 iframe 内容，这里只检测极端情况：页面完全空白时给出提示链接
+    if (!f.contentWindow && !f.contentDocument) {
+      document.getElementById("fallback").style.display = "block";
     }
-    const m = new AMap.Marker({ position: pos, title: p.name, map: map });
-    m.on("click", () => {
-      new AMap.InfoWindow({
-        content: `<div class="info-win"><b>${p.name}</b><br>${p.desc}</div>`,
-        offset: new AMap.Pixel(0, -32)
-      }).open(map, m.getPosition());
-    });
-    markers.push(m);
-  });
-  // 博物馆主题：画一条 村 → 博物馆 的虚线路线
-  if (key === "museum") {
-    const line = new AMap.Polyline({
-      path: [themeCenter("village"), themeCenter("museum")],
-      strokeColor: "#8b1a1a", strokeWeight: 5, strokeStyle: "dashed", map: map
-    });
-    lines.push(line);
-  }
-  map.setZoomAndCenter(t.zoom, themeCenter(key));
-  [...tabsBox.children].forEach(b => b.classList.toggle("active", b.dataset.k === key));
-}
-for (const k in THEMES) {
-  const b = document.createElement("button");
-  b.textContent = THEMES[k].name; b.dataset.k = k;
-  b.onclick = () => render(k);
-  tabsBox.appendChild(b);
-}
-
-// ===== 错误检测：地图打不开时给出明确原因 =====
-function showErr(title, msgs){
-  const box = document.getElementById("errbox");
-  box.innerHTML = "<h3>" + title + "</h3>" + msgs.map(x => "<p>· " + x + "</p >").join("");
-  box.style.display = "block";
-}
-setTimeout(() => {
-  if (typeof AMap === "undefined") {
-    showErr("地图加载失败，常见原因：", [
-      "Key 没填或填错了 —— 检查两处：<code>key=你的KEY</code> 和 <code>securityJsCode</code>",
-      "安全密钥（securityJsCode）填的是不是 Key —— 两个不一样，别搞混",
-      "申请 Key 时服务平台必须选 <code>Web端(JS API)</code>",
-      "如果 Key 设了域名白名单，要把 <code>bfasdbcahbasdbf.github.io</code> 加进去"
-    ]);
-    notice.style.display = "none";
-    return;
-  }
-  if (document.getElementById("errbox").style.display !== "block") {
-    try { initMap(); }
-    catch(e) {
-      showErr("地图初始化失败，常见原因：", [
-        "Key 填错了，或安全密钥（securityJsCode）没配对",
-        "申请 Key 时服务平台必须选 <code>Web端(JS API)</code>",
-        "Key 设置了域名白名单 —— 把 <code>bfasdbcahbasdbf.github.io</code> 加进去，或暂时留空",
-        "把浏览器报错截图发给队友看看"
-      ]);
-      notice.style.display = "none";
-    }
-  }
-}, 2500);
-
-function initMap(){
-map = new AMap.Map("container", { zoom: 16, center: THEMES.village.center });
-
-// 自动定位三个主题的地名（搜索失败就用备用坐标，不影响使用）
-geocoder = new AMap.Geocoder({ city: "秦皇岛" });
-notice.style.display = "block";
-let pending = Object.keys(THEMES).length;
-for (const k in THEMES) {
-  geocoder.get(THEMES[k].place, (status, result) => {
-    if (status === "complete" && result.geocodes && result.geocodes.length) {
-      const loc = result.geocodes[0].location;
-      located[k] = [loc.lng, loc.lat];
-    }
-    if (--pending === 0) {
-      notice.style.display = "none";
-      render("village");   // 定位完成后重新渲染，地图就准了
-    }
-  });
-}
-}  // initMap 结束
+  } catch(e) { /* 跨域，忽略 */ }
+}, 30000);
 </script>
 </body>
 </html>
