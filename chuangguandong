@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>闯关东文化 · 北营子村</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"PingFang SC","Microsoft YaHei",sans-serif; background:#fdf8f3; color:#1a1a1a; }
+  .wrap { max-width:860px; margin:0 auto; padding:0 20px 60px; }
+  .top { display:flex; align-items:center; gap:14px; padding:16px 20px; background:#5c0f0f; color:#fff; position:sticky; top:0; z-index:10; }
+  .top a { color:#e8c87a; text-decoration:none; font-size:15px; white-space:nowrap; }
+  .top h1 { font-size:18px; letter-spacing:2px; }
+  h2.title { font-size:24px; color:#5c0f0f; margin:32px 0 4px; letter-spacing:2px; }
+  .slogan { color:#999; font-size:13px; margin-bottom:22px; letter-spacing:1px; }
+  p { font-size:15px; line-height:2; color:#444; margin:12px 0; }
+  p b, h4 { color:#8b1a1a; }
+  h4 { font-size:16px; margin:20px 0 4px; }
+  ul { padding-left:20px; margin:8px 0; color:#444; font-size:14.5px; line-height:2; }
+  li { margin:4px 0; }
+  img.full { width:100%; border-radius:12px; margin:14px 0; display:block; }
+  .timeline { border-left:3px solid #d4a843; padding-left:16px; margin:14px 0; }
+  .timeline p { margin:10px 0; }
+  .timeline b { color:#5c0f0f; }
+  /* 首页板块入口 */
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-top:8px; }
+  .card { background:#fff; border:1px solid #f0e6d4; border-radius:14px; padding:22px; cursor:pointer; transition:transform .2s; box-shadow:0 2px 10px rgba(139,26,26,.06); }
+  .card:hover { transform:translateY(-3px); border-color:#d4a843; }
+  .card h3 { color:#5c0f0f; font-size:17px; margin-bottom:8px; }
+  .card p { font-size:13px; color:#888; margin:0; line-height:1.8; }
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(100px,1fr)); gap:10px; margin:24px 0; }
+  .stat { background:#fff; border:1px solid #eee0c8; border-radius:12px; padding:16px 8px; text-align:center; }
+  .stat b { display:block; font-size:24px; color:#8b1a1a; }
+  .stat span { font-size:12px; color:#888; }
+  .intro { background:#fff; border-radius:14px; padding:22px 26px; box-shadow:0 2px 10px rgba(139,26,26,.06); margin-top:4px; }
+  .intro b { color:#8b1a1a; }
+  .map-entry { margin-top:16px; background:linear-gradient(135deg,#8b1a1a,#5c0f0f); color:#fff; border-radius:14px; padding:24px; text-align:center; cursor:pointer; transition:transform .2s; }
+  .map-entry:hover { transform:translateY(-3px); }
+  .map-entry h3 { font-size:18px; margin-bottom:6px; }
+  .map-entry p { font-size:13px; color:#e8c87a; margin:0; }
+  #lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:99; align-items:center; justify-content:center; cursor:pointer; }
+  #lightbox.show { display:flex; }
+  #lightbox img { max-width:94%; max-height:90%; border-radius:8px; }
+</style>
+</head>
+<body>
+<div class="top"><a href=" ">← 返回首页</a ><h1>北营子村 · 闯关东文化</h1></div>
+<div class="wrap">
+
+  <h2 class="title">闯关东文化</h2>
+  <div class="slogan">历史上的"闯关东第一村"</div>
+  <p>无数人从这里出关北上，踏上闯关东的艰辛旅程。村史馆内"闯关东第一村"展区以大量老照片和实物，再现了那段波澜壮阔的移民史。</p >
+  <ul>
+    <li>"闯关东第一村"主题展：老照片、老物件真实再现</li>
+    <li>村史馆记录闯关东历史脉络</li>
+    <li>长城内外移民文化的交汇见证</li>
+  </ul>
+  < img class="full" src="./museum-chuangguandong.jpg" alt="闯关东第一村展区" onclick="show(this.src)">
+
+</div>
+<div id="lightbox" onclick="this.classList.remove('show')">< img id="lightbox-img" src="" alt="放大"></div>
+<script>
+function show(src){ document.getElementById('lightbox-img').src = src; document.getElementById('lightbox').classList.add('show'); }
+</script>
+</body>
+</html>
