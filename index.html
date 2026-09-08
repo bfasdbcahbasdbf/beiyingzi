@@ -3,67 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>北营子村 · 长城脚下第一村</title>
+<title>长城脚下第一村 · 北营子村</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body { font-family:"PingFang SC","Microsoft YaHei",sans-serif; background:#fdf8f3; color:#1a1a1a; }
   .wrap { max-width:860px; margin:0 auto; padding:0 20px 60px; }
-
-  header { text-align:center; padding:60px 20px 20px; }
-  header .badge { display:inline-block; border:1px solid #d4a843; color:#8b6a1f; border-radius:50px; padding:6px 18px; font-size:13px; margin-bottom:18px; }
-  header h1 { font-size:36px; letter-spacing:6px; color:#5c0f0f; }
-  header .sub { margin-top:10px; color:#8b1a1a; font-weight:600; letter-spacing:2px; }
-  header .slogan { margin-top:6px; color:#999; font-size:13px; letter-spacing:3px; }
-
-  /* 数据条 */
-  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(100px,1fr)); gap:10px; margin:28px 0 4px; }
+  .top { display:flex; align-items:center; gap:14px; padding:16px 20px; background:#5c0f0f; color:#fff; position:sticky; top:0; z-index:10; }
+  .top a { color:#e8c87a; text-decoration:none; font-size:15px; white-space:nowrap; }
+  .top h1 { font-size:18px; letter-spacing:2px; }
+  h2.title { font-size:24px; color:#5c0f0f; margin:32px 0 4px; letter-spacing:2px; }
+  .slogan { color:#999; font-size:13px; margin-bottom:22px; letter-spacing:1px; }
+  p { font-size:15px; line-height:2; color:#444; margin:12px 0; }
+  p b, h4 { color:#8b1a1a; }
+  h4 { font-size:16px; margin:20px 0 4px; }
+  ul { padding-left:20px; margin:8px 0; color:#444; font-size:14.5px; line-height:2; }
+  li { margin:4px 0; }
+  img.full { width:100%; border-radius:12px; margin:14px 0; display:block; }
+  .timeline { border-left:3px solid #d4a843; padding-left:16px; margin:14px 0; }
+  .timeline p { margin:10px 0; }
+  .timeline b { color:#5c0f0f; }
+  /* 首页板块入口 */
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-top:8px; }
+  .card { background:#fff; border:1px solid #f0e6d4; border-radius:14px; padding:22px; cursor:pointer; transition:transform .2s; box-shadow:0 2px 10px rgba(139,26,26,.06); }
+  .card:hover { transform:translateY(-3px); border-color:#d4a843; }
+  .card h3 { color:#5c0f0f; font-size:17px; margin-bottom:8px; }
+  .card p { font-size:13px; color:#888; margin:0; line-height:1.8; }
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(100px,1fr)); gap:10px; margin:24px 0; }
   .stat { background:#fff; border:1px solid #eee0c8; border-radius:12px; padding:16px 8px; text-align:center; }
   .stat b { display:block; font-size:24px; color:#8b1a1a; }
   .stat span { font-size:12px; color:#888; }
-
-  /* 简介 */
-  .intro { background:#fff; border-radius:14px; padding:24px 26px; box-shadow:0 2px 10px rgba(139,26,26,.06); font-size:15px; line-height:2; color:#444; margin-top:20px; }
+  .intro { background:#fff; border-radius:14px; padding:22px 26px; box-shadow:0 2px 10px rgba(139,26,26,.06); margin-top:4px; }
   .intro b { color:#8b1a1a; }
-
-  /* 手风琴 */
-  details { background:#fff; border-radius:14px; margin-top:14px; box-shadow:0 2px 10px rgba(139,26,26,.06); overflow:hidden; border:1px solid #f0e6d4; }
-  summary { list-style:none; cursor:pointer; padding:18px 22px; display:flex; align-items:center; gap:12px; font-size:17px; font-weight:bold; color:#5c0f0f; user-select:none; }
-  summary::-webkit-details-marker { display:none; }
-  summary .arrow { margin-left:auto; color:#c9a24b; transition:transform .25s; }
-  details[open] summary .arrow { transform:rotate(90deg); }
-  details[open] summary { border-bottom:1px solid #f0e6d4; }
-  .content { padding:18px 22px 24px; font-size:14.5px; line-height:2; color:#555; }
-  .content h4 { color:#8b1a1a; margin:14px 0 6px; font-size:15px; }
-  .content h4:first-child { margin-top:0; }
-  .content ul { padding-left:20px; margin-top:6px; }
-  .content li { margin:4px 0; }
-  .content img { width:100%; border-radius:10px; margin-top:14px; }
-  .timeline { border-left:3px solid #d4a843; padding-left:16px; margin-top:8px; }
-  .timeline p { margin:10px 0; }
-  .timeline b { color:#5c0f0f; }
-
-  /* 地图入口 */
-  .map-entry { margin-top:18px; background:linear-gradient(135deg,#8b1a1a,#5c0f0f); color:#fff; border-radius:14px; padding:26px; text-align:center; cursor:pointer; transition:transform .2s; }
+  .map-entry { margin-top:16px; background:linear-gradient(135deg,#8b1a1a,#5c0f0f); color:#fff; border-radius:14px; padding:24px; text-align:center; cursor:pointer; transition:transform .2s; }
   .map-entry:hover { transform:translateY(-3px); }
   .map-entry h3 { font-size:18px; margin-bottom:6px; }
-  .map-entry p { font-size:13px; color:#e8c87a; }
-
-  /* 照片放大 */
+  .map-entry p { font-size:13px; color:#e8c87a; margin:0; }
   #lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:99; align-items:center; justify-content:center; cursor:pointer; }
   #lightbox.show { display:flex; }
   #lightbox img { max-width:94%; max-height:90%; border-radius:8px; }
 </style>
 </head>
 <body>
-
-<header>
-  <div class="badge">📍 河北省秦皇岛市山海关区孟姜镇</div>
-  <h1>北 营 子 村</h1>
-  <div class="sub">长城脚下第一村</div>
-  <div class="slogan">明代北翼城旧址 · 明长城穿村而过</div>
-</header>
-
+<div class="top"><a href=" ">← 返回首页</a ><h1>北营子村 · 长城脚下第一村</h1></div>
 <div class="wrap">
+
+  <h2 class="title">北 营 子 村</h2>
+  <div class="slogan">📍 河北省秦皇岛市山海关区孟姜镇 · 长城脚下第一村 · 明代北翼城旧址</div>
 
   <div class="stats">
     <div class="stat"><b>80户</b><span>全村户籍</span></div>
@@ -74,113 +59,45 @@
   </div>
 
   <div class="intro">
-    北营子村坐落于<b>山海关古城与角山长城之间</b>，明长城遗址穿村而过，距古城1.5千米、距角山长城1千米。
-    这里曾是明代山海关"一体两翼、前拱后卫"军事防御体系中的<b>北翼城</b>，
-    六百载长城记忆与满族风情在此交融，被誉为"长城脚下第一村""闯关东第一村"。
+    <p style="margin:0">北营子村坐落于<b>山海关古城与角山长城之间</b>，明长城遗址穿村而过，距古城1.5千米、距角山长城1千米。这里曾是明代山海关"一体两翼、前拱后卫"军事防御体系中的<b>北翼城</b>，六百载长城记忆与满族风情在此交融，被誉为"长城脚下第一村""闯关东第一村"。</p >
   </div>
 
-  <details>
-    <summary>🏯 明长城 · 北翼城 <span class="arrow">▶</span></summary>
-    <div class="content">
-      <h4>北翼城旧址</h4>
-      <p>北营子村原为明代山海关"一体两翼、前拱后卫"军事城防体系中的北翼城（又名北新城），与南翼城共同构成保卫京东门户的安全屏障。</p >
-      <h4>明长城遗址</h4>
-      <p>明长城遗址穿村而过，村南、北、东三面仍被长城及城墙遗址围合。村中<b>腰铺九号敌台</b>为明万历年间增建，是山海关境内43座敌台之一，与北翼城呈犄角态势。</p >
-      <h4>山海关大战</h4>
-      <p>甲申年（1644年）山海关之战中，北翼城曾是激烈争夺的战场，这段铁血记忆成为北营子村独特的文化符号。</p >
-      <h4>历史沿革</h4>
-      <div class="timeline">
-        <p><b>明代</b> · 修建北翼城（北新城），形成"一体两翼、前拱后卫"格局</p >
-        <p><b>1644年</b> · 山海关大战，北翼城成为激烈争夺的战场</p >
-        <p><b>清代</b> · 裁撤山海关旗营，驻守官兵就地谋生，北翼城逐渐演变为村落</p >
-        <p><b>新时代</b> · 打造"长城人家"主题村落，入选河北省乡村旅游重点村</p >
-      </div>
+  <div class="grid" style="margin-top:16px">
+    <div class="card" onclick="location.href='greatwall.html'">
+      <h3>🏯 明长城 · 北翼城</h3>
+      <p>北翼城旧址、腰铺九号敌台、1644山海关大战、六百年历史沿革</p >
     </div>
-  </details>
+    <div class="card" onclick="location.href='manzu.html'">
+      <h3>🏮 满族风情</h3>
+      <p>满族人口占65%，"满堂红"文化空间，荤锅、八大碗、桲椤叶饼</p >
+    </div>
+    <div class="card" onclick="location.href='chuangguandong.html'">
+      <h3>🛤️ 闯关东文化</h3>
+      <p>"闯关东第一村"，村史馆主题展区，波澜壮阔的移民史</p >
+    </div>
+    <div class="card" onclick="location.href='minsu.html'">
+      <h3>🏡 长城人家民宿</h3>
+      <p>12家精品民宿、大食堂农家院、10公里长城风景道</p >
+    </div>
+    <div class="card" onclick="location.href='heritage.html'">
+      <h3>📚 文化遗存</h3>
+      <p>村史馆四大展区、山海关长城书院、战备地道</p >
+    </div>
+    <div class="card" onclick="location.href='photos.html'">
+      <h3>📷 村景掠影</h3>
+      <p>村口石刻、文化墙、满族大院、村史馆实景照片</p >
+    </div>
+  </div>
 
-  <details>
-    <summary>🏮 满族风情 <span class="arrow">▶</span></summary>
-    <div class="content">
-      <p>全村满族人口约占65%，是典型的少数民族村，村民大多为北翼城驻军后裔。村内"满堂红"等满族风情空间青砖黛瓦、飞檐斗拱，箭弩骑具、碑文原拓、满族刺绣等文史元素融入日常。</p >
-      <ul>
-        <li>满族风情大院：明清建筑风格，满族老物件陈列</li>
-        <li>"满堂红"：满族文化展示与餐饮体验空间</li>
-        <li>传统美食：山海关荤锅、八大碗、桲椤叶饼</li>
-      </ul>
-      < img src="https://bfasdbcahbasdbf.github.io/beiyingzi/mantanghong.jpg" alt="满堂红满族文化空间" onclick="show(this.src)">
-    </div>
-  </details>
+  <div class="map-entry" onclick="location.href='map-amap.html'">
+    <h3>🗺️ 地图导览</h3>
+    <p>村内导览 · 角山登长城 · 山海关中国长城博物馆路线（点我）</p >
+  </div>
 
-  <details>
-    <summary>🛤️ 闯关东文化 <span class="arrow">▶</span></summary>
-    <div class="content">
-      <p>北营子村历史上被称为"闯关东第一村"。无数人从这里出关北上，踏上闯关东的艰辛旅程。村史馆内"闯关东第一村"展区以大量老照片和实物，再现了那段波澜壮阔的移民史。</p >
-      < img src="https://bfasdbcahbasdbf.github.io/beiyingzi/museum-chuangguandong.jpg" alt="闯关东第一村展区" onclick="show(this.src)">
-    </div>
-  </details>
-
-  <details>
-    <summary>🏡 长城人家民宿 <span class="arrow">▶</span></summary>
-    <div class="content">
-      <p>依托长城国家文化公园建设，北营子村打造"长城人家"特色文化主题村落，将长城文化与墙画相结合。现有特色精品民宿12家，床位数十张，为游客提供长城脚下的生活体验。</p >
-      <ul>
-        <li>12家特色精品民宿，白墙灰瓦古香古色</li>
-        <li>大食堂、农家院等各类餐饮饭店</li>
-        <li>融合传统与现代的"砖居"等主题小院</li>
-      </ul>
-      <p>山海关长城风景道穿村而过，全长10公里，总投资1.35亿元，串联起古城、角山景区及沿线村庄。</p >
-      < img src="https://bfasdbcahbasdbf.github.io/beiyingzi/culture-wall.jpg" alt="长城人家文化墙" onclick="show(this.src)">
-    </div>
-  </details>
-
-  <details>
-    <summary>📚 文化遗存 <span class="arrow">▶</span></summary>
-    <div class="content">
-      <h4>北营子村村史馆</h4>
-      <p>秦皇岛市首家经专家认证的村级史馆，青砖灰瓦的农家院落内收藏石碑、石臼、墙基石、长城砖等实物，设有"北翼风云""北营过往""汉风满韵""浅山福地"四个展区。</p >
-      < img src="https://bfasdbcahbasdbf.github.io/beiyingzi/museum-outside.jpg" alt="村史馆外观" onclick="show(this.src)">
-      < img src="https://bfasdbcahbasdbf.github.io/beiyingzi/museum-beiying.jpg" alt="北营过往展区" onclick="show(this.src)">
-      <h4>山海关长城书院</h4>
-      <p>长城沿线新时代文明实践带的重要组成部分，青砖黛瓦与长城文化相得益彰，是传播长城文化、弘扬民族精神的文化地标。</p >
-      < img src="https://bfasdbcahbasdbf.github.io/beiyingzi/academy.jpg" alt="山海关长城书院" onclick="show(this.src)">
-      <h4>战备地道</h4>
-      <p>村内保留有战备地道遗址，地道纵横交错，见证了北营子村在不同历史阶段的独特记忆。</p >
-    </div>
-  </details>
-
-  <details open>
-    <summary>📷 村景掠影 <span class="arrow">▶</span></summary>
-    <div class="content">
-      <p>村口地标"长城人家·北营子"石刻：</p >
-      < img src="https://bfasdbcahbasdbf.github.io/beiyingzi/stone.jpg" alt="村口石刻" onclick="show(this.src)">
-      <p style="font-size:12px;color:#aaa;">提示：以上照片引用自项目仓库，建议下载到本地 photos 文件夹后改用本地路径（和队友网站保持一致）。点照片可放大。</p >
-    </div>
-  </details
-<div class="map-entry"
-onclick="location.href='map-amap.htm
-1'">
-<h3>y
-地图导览</h3>
-<p>村内导览·角山登长城·山海关中国
-长城博物馆路线（点我）</p >
 </div>
-</div>
-<div id="lightbox"
-onclick="this.classList.remove('show
-')">
-< img id="lightbox-img" sIc=""
-alt="放大">
-</div>
+<div id="lightbox" onclick="this.classList.remove('show')">< img id="lightbox-img" src="" alt="放大"></div>
 <script>
-function show(src){
-document.getElementById('lightbox-im
-g').src = src;
-document.getElementById('lightbox').
-classList.add('show');
-}
+function show(src){ document.getElementById('lightbox-img').src = src; document.getElementById('lightbox').classList.add('show'); }
 </script>
 </body>
 </html>
-
-
-    
