@@ -1,1230 +1,186 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>北营子村 · 长城脚下第一村</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        :root {
-            --wall-red: #8B1A1A;
-            --wall-dark: #5C0F0F;
-            --wall-light: #B83A3A;
-            --gold: #D4A843;
-            --gold-light: #E8C87A;
-            --stone: #2C2C2C;
-            --bg: #FDF8F3;
-            --bg-warm: #F5EDE4;
-            --text: #1A1A1A;
-            --text-light: #666666;
-            --white: #ffffff;
-        }
-
-        html { scroll-behavior: smooth; }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.8;
-            overflow-x: hidden;
-        }
-
-        .brick-pattern {
-            background-image: 
-                linear-gradient(90deg, rgba(139,26,26,0.03) 1px, transparent 1px),
-                linear-gradient(rgba(139,26,26,0.03) 1px, transparent 1px);
-            background-size: 40px 20px;
-        }
-
-        /* ===== 导航栏 ===== */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: linear-gradient(180deg, rgba(92,15,15,0.95) 0%, rgba(139,26,26,0.95) 100%);
-            z-index: 1000;
-            box-shadow: 0 4px 30px rgba(139,26,26,0.3);
-            border-bottom: 3px solid var(--gold);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
-        }
-
-        .logo {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--gold-light);
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            letter-spacing: 2px;
-        }
-
-        .logo::before { content: "🏯"; font-size: 1.6rem; }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: rgba(255,255,255,0.85);
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: all 0.3s;
-            position: relative;
-            padding: 0.5rem 0;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gold);
-            transition: width 0.3s;
-        }
-
-        .nav-links a:hover { color: var(--gold-light); }
-        .nav-links a:hover::after { width: 100%; }
-
-        /* ===== HERO ===== */
-        .hero {
-            margin-top: 70px;
-            min-height: 100vh;
-            background: linear-gradient(160deg, var(--wall-dark) 0%, var(--wall-red) 40%, #6B1A1A 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--white);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 80px;
-            background: 
-                linear-gradient(135deg, var(--wall-red) 25%, transparent 25%) -20px 0,
-                linear-gradient(225deg, var(--wall-red) 25%, transparent 25%) -20px 0,
-                linear-gradient(315deg, var(--wall-red) 25%, transparent 25%),
-                linear-gradient(45deg, var(--wall-red) 25%, transparent 25%);
-            background-size: 40px 40px;
-            background-color: var(--wall-dark);
-            opacity: 0.6;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: 
-                linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px),
-                linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px);
-            background-size: 60px 30px;
-            pointer-events: none;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            padding: 0 2rem;
-            max-width: 900px;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(212,168,67,0.15);
-            border: 1px solid var(--gold);
-            padding: 0.6rem 1.8rem;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            margin-bottom: 2rem;
-            color: var(--gold-light);
-            letter-spacing: 1px;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.8rem, 7vw, 5rem);
-            font-weight: 900;
-            margin-bottom: 1.2rem;
-            letter-spacing: 4px;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.4);
-            line-height: 1.2;
-        }
-
-        .hero h1 span {
-            color: var(--gold);
-            display: block;
-            font-size: 0.5em;
-            font-weight: 600;
-            letter-spacing: 6px;
-            margin-top: 0.8rem;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-
-        .hero-sub {
-            font-size: 1.1rem;
-            color: var(--gold-light);
-            margin-bottom: 1.5rem;
-            letter-spacing: 2px;
-        }
-
-        .hero-desc {
-            font-size: 1.1rem;
-            opacity: 0.85;
-            margin-bottom: 2.5rem;
-            max-width: 680px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.9;
-        }
-
-        .hero-btns {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .hero-btn-primary {
-            display: inline-block;
-            background: var(--gold);
-            color: var(--wall-dark);
-            padding: 1rem 2.5rem;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: all 0.3s;
-            border: 2px solid var(--gold);
-            letter-spacing: 1px;
-        }
-
-        .hero-btn-primary:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(212,168,67,0.4);
-        }
-
-        .hero-btn-secondary {
-            display: inline-block;
-            background: transparent;
-            color: var(--gold-light);
-            padding: 1rem 2.5rem;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            border: 2px solid rgba(212,168,67,0.5);
-        }
-
-        .hero-btn-secondary:hover {
-            border-color: var(--gold);
-            background: rgba(212,168,67,0.1);
-        }
-
-        .wall-divider {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin: 1.5rem auto;
-            max-width: 300px;
-        }
-
-        .wall-divider::before,
-        .wall-divider::after {
-            content: '';
-            flex: 1;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-        }
-
-        .wall-divider span { color: var(--gold); font-size: 1.2rem; }
-
-        /* ===== 村口大石头特写 ===== */
-        .stone-showcase {
-            position: relative;
-            width: 100%;
-            background: var(--wall-dark);
-        }
-
-        .stone-img-container {
-            width: 100%;
-            height: 55vh;
-            min-height: 400px;
-            max-height: 600px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .stone-img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center 30%;
-        }
-
-        .stone-img-container::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 150px;
-            background: linear-gradient(to top, var(--wall-dark), transparent);
-        }
-
-        .stone-caption {
-            text-align: center;
-            padding: 2.5rem 2rem;
-            background: linear-gradient(180deg, var(--wall-dark), var(--wall-red));
-            color: var(--white);
-            position: relative;
-        }
-
-        .stone-caption h2 {
-            font-size: 2.2rem;
-            color: var(--gold-light);
-            letter-spacing: 6px;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-        }
-
-        .stone-caption p {
-            color: rgba(255,255,255,0.7);
-            font-size: 1.05rem;
-            letter-spacing: 2px;
-        }
-
-        /* ===== 通用 ===== */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .section { padding: 5rem 0; position: relative; }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 3.5rem;
-        }
-
-        .section-header h2 {
-            font-size: 2.4rem;
-            color: var(--wall-red);
-            margin-bottom: 0.8rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-        }
-
-        .section-header p {
-            color: var(--text-light);
-            font-size: 1.1rem;
-        }
-
-        .divider {
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--wall-red), var(--gold));
-            margin: 1rem auto;
-            border-radius: 2px;
-        }
-
-        /* ===== 红色长城专题 ===== */
-        .greatwall-section {
-            background: linear-gradient(135deg, var(--wall-dark) 0%, var(--wall-red) 100%);
-            color: var(--white);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .greatwall-section::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: 
-                linear-gradient(90deg, rgba(0,0,0,0.15) 1px, transparent 1px),
-                linear-gradient(rgba(0,0,0,0.15) 1px, transparent 1px);
-            background-size: 50px 25px;
-            pointer-events: none;
-        }
-
-        .greatwall-section .section-header h2 { color: var(--gold-light); }
-        .greatwall-section .section-header p { color: rgba(255,255,255,0.7); }
-        .greatwall-section .divider { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
-
-        .greatwall-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .greatwall-card {
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(212,168,67,0.2);
-            border-radius: 8px;
-            padding: 2.5rem 2rem;
-            transition: all 0.4s ease;
-            backdrop-filter: blur(5px);
-        }
-
-        .greatwall-card:hover {
-            background: rgba(255,255,255,0.12);
-            border-color: rgba(212,168,67,0.4);
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-        }
-
-        .greatwall-card-icon {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, var(--gold), var(--gold-light));
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 15px rgba(212,168,67,0.3);
-        }
-
-        .greatwall-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: var(--gold-light);
-            font-weight: 700;
-        }
-
-        .greatwall-card p {
-            color: rgba(255,255,255,0.8);
-            font-size: 0.95rem;
-            line-height: 1.8;
-        }
-
-        .timeline {
-            position: relative;
-            padding-left: 2rem;
-            margin-top: 2rem;
-            max-width: 750px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(180deg, var(--gold), transparent);
-            border-radius: 2px;
-        }
-
-        .timeline-item {
-            position: relative;
-            padding-bottom: 2rem;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -2rem;
-            top: 0.5rem;
-            width: 12px;
-            height: 12px;
-            background: var(--gold);
-            border-radius: 50%;
-            transform: translateX(-4.5px);
-            box-shadow: 0 0 0 4px rgba(212,168,67,0.2);
-        }
-
-        .timeline-item h4 {
-            color: var(--gold-light);
-            font-size: 1.1rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .timeline-item p {
-            color: rgba(255,255,255,0.7);
-            font-size: 0.92rem;
-            line-height: 1.7;
-        }
-
-        /* ===== 村庄概况 ===== */
-        .overview-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 2rem;
-        }
-
-        .info-card {
-            background: var(--white);
-            border-radius: 8px;
-            padding: 2rem;
-            box-shadow: 0 4px 20px rgba(139,26,26,0.08);
-            transition: all 0.3s ease;
-            border-top: 4px solid var(--wall-red);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .info-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, transparent 50%, rgba(139,26,26,0.05) 50%);
-        }
-
-        .info-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 35px rgba(139,26,26,0.12);
-            border-top-color: var(--gold);
-        }
-
-        .info-card-icon {
-            width: 55px;
-            height: 55px;
-            background: linear-gradient(135deg, var(--wall-red), var(--wall-light));
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            margin-bottom: 1.2rem;
-            color: var(--white);
-        }
-
-        .info-card h3 {
-            font-size: 1.15rem;
-            margin-bottom: 0.6rem;
-            color: var(--wall-dark);
-        }
-
-        .info-card p {
-            color: var(--text-light);
-            font-size: 0.92rem;
-            line-height: 1.7;
-        }
-
-        /* ===== 特色亮点 ===== */
-        .features { background: var(--bg-warm); }
-
-        .feature-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-            margin-bottom: 5rem;
-        }
-
-        .feature-row:last-child { margin-bottom: 0; }
-        .feature-row.reverse { direction: rtl; }
-        .feature-row.reverse > * { direction: ltr; }
-
-        .feature-img {
-            width: 100%;
-            height: 380px;
-            border-radius: 8px;
-            box-shadow: 0 10px 40px rgba(139,26,26,0.2);
-            position: relative;
-            overflow: hidden;
-            border: 3px solid rgba(212,168,67,0.3);
-            background: linear-gradient(135deg, var(--wall-red), var(--wall-dark));
-        }
-
-        .feature-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            position: relative;
-            z-index: 2;
-        }
-
-        .feature-img::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: 
-                linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px),
-                linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px);
-            background-size: 30px 15px;
-            z-index: 3;
-            pointer-events: none;
-        }
-
-        .feature-content h3 {
-            font-size: 1.8rem;
-            color: var(--wall-red);
-            margin-bottom: 1rem;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .feature-content h3::after {
-            content: '';
-            flex: 1;
-            height: 2px;
-            background: linear-gradient(90deg, var(--gold), transparent);
-            max-width: 100px;
-        }
-
-        .feature-content p {
-            color: var(--text-light);
-            margin-bottom: 1.5rem;
-            font-size: 1.05rem;
-            line-height: 1.8;
-        }
-
-        .feature-list { list-style: none; }
-
-        .feature-list li {
-            padding: 0.6rem 0;
-            padding-left: 1.8rem;
-            position: relative;
-            color: var(--text);
-            font-size: 0.95rem;
-        }
-
-        .feature-list li::before {
-            content: "▸";
-            position: absolute;
-            left: 0;
-            color: var(--wall-red);
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-
-        /* ===== 数据统计 ===== */
-        .stats {
-            background: linear-gradient(135deg, var(--wall-dark) 0%, var(--wall-red) 50%, #7A1515 100%);
-            color: var(--white);
-            padding: 5rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stats::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 6px;
-            background: repeating-linear-gradient(90deg, var(--gold) 0px, var(--gold) 20px, var(--wall-dark) 20px, var(--wall-dark) 40px);
-        }
-
-        .stats::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 6px;
-            background: repeating-linear-gradient(90deg, var(--gold) 0px, var(--gold) 20px, var(--wall-dark) 20px, var(--wall-dark) 40px);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 2rem;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .stat-item {
-            padding: 1.5rem;
-            border: 1px solid rgba(212,168,67,0.2);
-            border-radius: 8px;
-            background: rgba(255,255,255,0.05);
-            transition: all 0.3s;
-        }
-
-        .stat-item:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(212,168,67,0.4);
-            transform: translateY(-3px);
-        }
-
-        .stat-item h3 {
-            font-size: 2.6rem;
-            font-weight: 900;
-            margin-bottom: 0.5rem;
-            color: var(--gold);
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-
-        .stat-item p {
-            font-size: 0.95rem;
-            opacity: 0.85;
-            letter-spacing: 1px;
-        }
-
-        /* ===== 文化遗存 ===== */
-        .heritage-section { background: var(--white); }
-
-        .heritage-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .heritage-card {
-            background: var(--bg);
-            border-radius: 8px;
-            padding: 2rem;
-            border-left: 4px solid var(--wall-red);
-            transition: all 0.3s;
-            overflow: hidden;
-        }
-
-        .heritage-card:hover {
-            transform: translateX(5px);
-            box-shadow: 0 8px 25px rgba(139,26,26,0.1);
-            border-left-color: var(--gold);
-        }
-
-        .heritage-img {
-            width: calc(100% + 4rem);
-            height: 200px;
-            object-fit: cover;
-            margin: -2rem -2rem 1.5rem -2rem;
-            border-radius: 8px 8px 0 0;
-            display: block;
-        }
-
-        .heritage-card h4 {
-            color: var(--wall-dark);
-            font-size: 1.15rem;
-            margin-bottom: 0.6rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .heritage-card p {
-            color: var(--text-light);
-            font-size: 0.92rem;
-            line-height: 1.7;
-        }
-
-        /* ===== 长城故事 ===== */
-        .story-section { background: var(--bg-warm); }
-
-        .story-content {
-            max-width: 900px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .story-quote {
-            font-size: 1.25rem;
-            color: var(--wall-red);
-            font-style: italic;
-            line-height: 2;
-            padding: 2rem 2.5rem;
-            border-left: 4px solid var(--gold);
-            border-right: 4px solid var(--gold);
-            background: var(--white);
-            border-radius: 4px;
-            margin-bottom: 2.5rem;
-            position: relative;
-            text-align: left;
-        }
-
-        .story-quote::before,
-        .story-quote::after {
-            font-size: 3rem;
-            color: var(--gold);
-            position: absolute;
-            line-height: 1;
-        }
-
-        .story-quote::before { content: '"'; top: 0.5rem; left: 1rem; }
-        .story-quote::after { content: '"'; bottom: 0; right: 1rem; }
-
-        .story-text {
-            color: var(--text-light);
-            font-size: 1.05rem;
-            line-height: 2.2;
-            text-align: left;
-            column-count: 2;
-            column-gap: 3rem;
-        }
-
-        /* ===== 页脚 ===== */
-        footer {
-            background: var(--wall-dark);
-            color: var(--white);
-            padding: 4rem 0 2rem;
-            position: relative;
-        }
-
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 8px;
-            background: 
-                linear-gradient(135deg, var(--wall-dark) 25%, transparent 25%) -10px 0,
-                linear-gradient(225deg, var(--wall-dark) 25%, transparent 25%) -10px 0,
-                linear-gradient(315deg, var(--wall-dark) 25%, transparent 25%),
-                linear-gradient(45deg, var(--wall-dark) 25%, transparent 25%);
-            background-size: 20px 20px;
-            background-color: var(--gold);
-        }
-
-        .footer-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .footer-logo {
-            font-size: 1.6rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.6rem;
-            color: var(--gold-light);
-            letter-spacing: 3px;
-        }
-
-        .footer-tagline {
-            color: rgba(255,255,255,0.6);
-            font-size: 1rem;
-            margin-bottom: 2rem;
-            letter-spacing: 4px;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2.5rem;
-            margin: 2rem 0;
-            flex-wrap: wrap;
-        }
-
-        .footer-links a {
-            color: rgba(255,255,255,0.6);
-            text-decoration: none;
-            transition: color 0.3s;
-            font-size: 0.95rem;
-        }
-
-        .footer-links a:hover { color: var(--gold); }
-
-        .copyright {
-            color: rgba(255,255,255,0.4);
-            font-size: 0.85rem;
-            margin-top: 2.5rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(212,168,67,0.15);
-            line-height: 2;
-        }
-
-        /* ===== 响应式 ===== */
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .hero h1 { font-size: 2.2rem; letter-spacing: 2px; }
-            .hero h1 span { letter-spacing: 3px; }
-            .hero-sub { font-size: 0.9rem; }
-            .stone-img-container { height: 40vh; min-height: 250px; }
-            .stone-caption h2 { font-size: 1.5rem; letter-spacing: 3px; }
-            .feature-row, .feature-row.reverse {
-                grid-template-columns: 1fr;
-                direction: ltr;
-                gap: 2rem;
-            }
-            .feature-row.reverse > * { direction: ltr; }
-            .feature-img { height: 260px; }
-            .section { padding: 3rem 0; }
-            .section-header h2 { font-size: 1.8rem; }
-            .greatwall-grid { grid-template-columns: 1fr; }
-            .hero-btns { flex-direction: column; align-items: center; }
-            .hero-btn-primary, .hero-btn-secondary { width: 100%; max-width: 280px; }
-            .story-text { column-count: 1; }
-            .story-quote { padding: 2rem 1.5rem; }
-            .heritage-img { height: 160px; }
-        }
-
-        /* ===== 动画 ===== */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .fade-in-delay-1 { transition-delay: 0.15s; }
-        .fade-in-delay-2 { transition-delay: 0.3s; }
-        .fade-in-delay-3 { transition-delay: 0.45s; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>北营子村 · 长城脚下第一村</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"PingFang SC","Microsoft YaHei",sans-serif; background:#fdf8f3; color:#1a1a1a; }
+  .wrap { max-width:860px; margin:0 auto; padding:0 20px 60px; }
+
+  header { text-align:center; padding:60px 20px 20px; }
+  header .badge { display:inline-block; border:1px solid #d4a843; color:#8b6a1f; border-radius:50px; padding:6px 18px; font-size:13px; margin-bottom:18px; }
+  header h1 { font-size:36px; letter-spacing:6px; color:#5c0f0f; }
+  header .sub { margin-top:10px; color:#8b1a1a; font-weight:600; letter-spacing:2px; }
+  header .slogan { margin-top:6px; color:#999; font-size:13px; letter-spacing:3px; }
+
+  /* 数据条 */
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(100px,1fr)); gap:10px; margin:28px 0 4px; }
+  .stat { background:#fff; border:1px solid #eee0c8; border-radius:12px; padding:16px 8px; text-align:center; }
+  .stat b { display:block; font-size:24px; color:#8b1a1a; }
+  .stat span { font-size:12px; color:#888; }
+
+  /* 简介 */
+  .intro { background:#fff; border-radius:14px; padding:24px 26px; box-shadow:0 2px 10px rgba(139,26,26,.06); font-size:15px; line-height:2; color:#444; margin-top:20px; }
+  .intro b { color:#8b1a1a; }
+
+  /* 手风琴 */
+  details { background:#fff; border-radius:14px; margin-top:14px; box-shadow:0 2px 10px rgba(139,26,26,.06); overflow:hidden; border:1px solid #f0e6d4; }
+  summary { list-style:none; cursor:pointer; padding:18px 22px; display:flex; align-items:center; gap:12px; font-size:17px; font-weight:bold; color:#5c0f0f; user-select:none; }
+  summary::-webkit-details-marker { display:none; }
+  summary .arrow { margin-left:auto; color:#c9a24b; transition:transform .25s; }
+  details[open] summary .arrow { transform:rotate(90deg); }
+  details[open] summary { border-bottom:1px solid #f0e6d4; }
+  .content { padding:18px 22px 24px; font-size:14.5px; line-height:2; color:#555; }
+  .content h4 { color:#8b1a1a; margin:14px 0 6px; font-size:15px; }
+  .content h4:first-child { margin-top:0; }
+  .content ul { padding-left:20px; margin-top:6px; }
+  .content li { margin:4px 0; }
+  .content img { width:100%; border-radius:10px; margin-top:14px; }
+  .timeline { border-left:3px solid #d4a843; padding-left:16px; margin-top:8px; }
+  .timeline p { margin:10px 0; }
+  .timeline b { color:#5c0f0f; }
+
+  /* 地图入口 */
+  .map-entry { margin-top:18px; background:linear-gradient(135deg,#8b1a1a,#5c0f0f); color:#fff; border-radius:14px; padding:26px; text-align:center; cursor:pointer; transition:transform .2s; }
+  .map-entry:hover { transform:translateY(-3px); }
+  .map-entry h3 { font-size:18px; margin-bottom:6px; }
+  .map-entry p { font-size:13px; color:#e8c87a; }
+
+  /* 照片放大 */
+  #lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:99; align-items:center; justify-content:center; cursor:pointer; }
+  #lightbox.show { display:flex; }
+  #lightbox img { max-width:94%; max-height:90%; border-radius:8px; }
+</style>
 </head>
 <body>
 
-    <!-- 导航 -->
-    <nav id="navbar">
-        <div class="nav-container">
-            <div class="logo">北营子村</div>
-            <ul class="nav-links">
-                <li><a href="#greatwall">明长城</a></li>
-                <li><a href="#overview">村庄概况</a></li>
-                <li><a href="#features">特色亮点</a></li>
-                <li><a href="#heritage">文化遗存</a></li>
-                <li><a href="#story">长城故事</a></li>
-            </ul>
-        </div>
-    </nav>
+<header>
+  <div class="badge">📍 河北省秦皇岛市山海关区孟姜镇</div>
+  <h1>北 营 子 村</h1>
+  <div class="sub">长城脚下第一村</div>
+  <div class="slogan">明代北翼城旧址 · 明长城穿村而过</div>
+</header>
 
-    <!-- HERO -->
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-badge">📍 河北省秦皇岛市山海关区孟姜镇</div>
-            <h1>
-                北营子村
-                <span>长城脚下第一村</span>
-            </h1>
-            <p class="hero-sub">明代北翼城旧址 · 明长城穿村而过</p>
-            <div class="wall-divider"><span>◆</span></div>
-            <p class="hero-desc">
-                北营子村坐落于山海关古城与角山长城之间，明长城遗址穿村而过。
-                这里曾是明代山海关"一体两翼、前拱后卫"军事防御体系中的北翼城，
-                六百载长城记忆与满族风情在此交融，被誉为"长城脚下第一村"。
-            </p>
-            <div class="hero-btns">
-                <a href="#greatwall" class="hero-btn-primary">探寻明长城</a>
-                <a href="#overview" class="hero-btn-secondary">走进北营子</a>
-            </div>
-        </div>
-    </section>
+<div class="wrap">
 
-    <!-- 村口大石头特写 -->
-    <section class="stone-showcase">
-        <div class="stone-img-container">
-            <img src="./stone.jpg" alt="长城人家·北营子村口地标">
-        </div>
-        <div class="stone-caption">
-            <h2>长城人家 · 北营子</h2>
-            <p>河北省乡村旅游重点村 · 长城国家文化公园</p>
-        </div>
-    </section>
+  <div class="stats">
+    <div class="stat"><b>80户</b><span>全村户籍</span></div>
+    <div class="stat"><b>230人</b><span>常住人口</span></div>
+    <div class="stat"><b>65%</b><span>满族人口</span></div>
+    <div class="stat"><b>600年</b><span>长城历史</span></div>
+    <div class="stat"><b>12家</b><span>精品民宿</span></div>
+  </div>
 
-    <!-- 明长城专题 -->
-    <section class="section greatwall-section" id="greatwall">
-        <div class="container">
-            <div class="section-header fade-in">
-                <h2>🏯 明长城 · 北翼城</h2>
-                <div class="divider"></div>
-                <p>六百载长城记忆，见证历史风云</p>
-            </div>
-            <div class="greatwall-grid">
-                <div class="greatwall-card fade-in">
-                    <div class="greatwall-card-icon">🏰</div>
-                    <h3>北翼城旧址</h3>
-                    <p>北营子村原为明代山海关"一体两翼、前拱后卫"军事城防体系中的北翼城（又名北新城）。明代后期建南翼城、北翼城，形成保卫京东门户的安全屏障。</p>
-                </div>
-                <div class="greatwall-card fade-in fade-in-delay-1">
-                    <div class="greatwall-card-icon">🧱</div>
-                    <h3>明长城遗址</h3>
-                    <p>明长城遗址穿村而过，村南、北、东三面仍被长城及城墙遗址围合。村中腰铺九号敌台为明万历年间增建，是山海关境内43座敌台之一，与北翼城呈犄角态势。</p>
-                </div>
-                <div class="greatwall-card fade-in fade-in-delay-2">
-                    <div class="greatwall-card-icon">⚔️</div>
-                    <h3>山海关大战</h3>
-                    <p>甲申年（1644年）山海关之战中，北翼城曾是激烈争夺的战场。这段铁血记忆深深镌刻在村庄的历史脉络中，成为北营子村独特的文化符号。</p>
-                </div>
-                <div class="greatwall-card fade-in fade-in-delay-3">
-                    <div class="greatwall-card-icon">🛤️</div>
-                    <h3>长城风景道</h3>
-                    <p>山海关长城风景道穿村而过，全长10公里，总投资1.35亿元，串联起古城、角山景区及沿线村庄。北营子村是距离山海关中国长城博物馆最近的村庄。</p>
-                </div>
-            </div>
+  <div class="intro">
+    北营子村坐落于<b>山海关古城与角山长城之间</b>，明长城遗址穿村而过，距古城1.5千米、距角山长城1千米。
+    这里曾是明代山海关"一体两翼、前拱后卫"军事防御体系中的<b>北翼城</b>，
+    六百载长城记忆与满族风情在此交融，被誉为"长城脚下第一村""闯关东第一村"。
+  </div>
 
-            <div class="timeline fade-in">
-                <div class="timeline-item">
-                    <h4>明代 · 北翼城建制</h4>
-                    <p>明代后期在山海关长城军事防御体系中修建北翼城（北新城），与南翼城形成"一体两翼、前拱后卫"格局，成为保卫京东门户的重要屏障。</p>
-                </div>
-                <div class="timeline-item">
-                    <h4>1644年 · 山海关大战</h4>
-                    <p>甲申年山海关之战，北翼城成为激烈争夺的战场。明清易代的历史风云在此激荡，留下深刻的战争记忆。</p>
-                </div>
-                <div class="timeline-item">
-                    <h4>清代 · 裁营成村</h4>
-                    <p>裁撤山海关旗营后，驻守官兵就地谋生，北翼城逐渐演变为村落。满族驻兵后裔与汉族同胞共同生活，交织出独特的村落风貌。</p>
-                </div>
-                <div class="timeline-item">
-                    <h4>新时代 · 长城人家</h4>
-                    <p>依托长城国家文化公园建设，北营子村打造"长城人家"主题村落，发展文旅融合产业，成为河北省乡村旅游重点村。</p>
-                </div>
-            </div>
-        </div>
-    </section>
+  <details>
+    <summary>🏯 明长城 · 北翼城 <span class="arrow">▶</span></summary>
+    <div class="content">
+      <h4>北翼城旧址</h4>
+      <p>北营子村原为明代山海关"一体两翼、前拱后卫"军事城防体系中的北翼城（又名北新城），与南翼城共同构成保卫京东门户的安全屏障。</p >
+      <h4>明长城遗址</h4>
+      <p>明长城遗址穿村而过，村南、北、东三面仍被长城及城墙遗址围合。村中<b>腰铺九号敌台</b>为明万历年间增建，是山海关境内43座敌台之一，与北翼城呈犄角态势。</p >
+      <h4>山海关大战</h4>
+      <p>甲申年（1644年）山海关之战中，北翼城曾是激烈争夺的战场，这段铁血记忆成为北营子村独特的文化符号。</p >
+      <h4>历史沿革</h4>
+      <div class="timeline">
+        <p><b>明代</b> · 修建北翼城（北新城），形成"一体两翼、前拱后卫"格局</p >
+        <p><b>1644年</b> · 山海关大战，北翼城成为激烈争夺的战场</p >
+        <p><b>清代</b> · 裁撤山海关旗营，驻守官兵就地谋生，北翼城逐渐演变为村落</p >
+        <p><b>新时代</b> · 打造"长城人家"主题村落，入选河北省乡村旅游重点村</p >
+      </div>
+    </div>
+  </details>
 
-    <!-- 村庄概况 -->
-    <section class="section brick-pattern" id="overview">
-        <div class="container">
-            <div class="section-header fade-in">
-                <h2>村庄概况</h2>
-                <div class="divider"></div>
-                <p>长城脚下的宜居家园</p>
-            </div>
-            <div class="overview-grid">
-                <div class="info-card fade-in">
-                    <div class="info-card-icon">📍</div>
-                    <h3>地理位置</h3>
-                    <p>位于河北省秦皇岛市山海关区孟姜镇，地处角山长城与山海关古城之间，距古城1.5千米，距角山长城1千米，地理位置得天独厚。</p>
-                </div>
-                <div class="info-card fade-in fade-in-delay-1">
-                    <div class="info-card-icon">👥</div>
-                    <h3>人口民族</h3>
-                    <p>全村约80户、230口人，其中满族村民约占65%，是当地典型的少数民族村。村民大多为北翼城驻军后裔，满汉和谐共居。</p>
-                </div>
-                <div class="info-card fade-in fade-in-delay-2">
-                    <div class="info-card-icon">🏡</div>
-                    <h3>村容村貌</h3>
-                    <p>白墙灰瓦的徽式民居整齐排列，干净平坦的水泥路延伸到房前屋后。红色中国结路灯、长城元素墙画与满族风情文化墙装点着村庄。</p>
-                </div>
-                <div class="info-card fade-in fade-in-delay-3">
-                    <div class="info-card-icon">🏆</div>
-                    <h3>荣誉称号</h3>
-                    <p>入选第五批河北省乡村旅游重点村名单，是山海关区首个"长城人家"项目落地村，被誉为"长城脚下第一村""闯关东第一村"。</p>
-                </div>
-            </div>
-        </div>
-    </section>
+  <details>
+    <summary>🏮 满族风情 <span class="arrow">▶</span></summary>
+    <div class="content">
+      <p>全村满族人口约占65%，是典型的少数民族村，村民大多为北翼城驻军后裔。村内"满堂红"等满族风情空间青砖黛瓦、飞檐斗拱，箭弩骑具、碑文原拓、满族刺绣等文史元素融入日常。</p >
+      <ul>
+        <li>满族风情大院：明清建筑风格，满族老物件陈列</li>
+        <li>"满堂红"：满族文化展示与餐饮体验空间</li>
+        <li>传统美食：山海关荤锅、八大碗、桲椤叶饼</li>
+      </ul>
+      < img src="https://bfasdbcahbasdbf.github.io/beiyingzi/mantanghong.jpg" alt="满堂红满族文化空间" onclick="show(this.src)">
+    </div>
+  </details>
 
-    <!-- 特色亮点 -->
-    <section class="section features" id="features">
-        <div class="container">
-            <div class="section-header fade-in">
-                <h2>特色亮点</h2>
-                <div class="divider"></div>
-                <p>长城之畔的独特魅力</p>
-            </div>
+  <details>
+    <summary>🛤️ 闯关东文化 <span class="arrow">▶</span></summary>
+    <div class="content">
+      <p>北营子村历史上被称为"闯关东第一村"。无数人从这里出关北上，踏上闯关东的艰辛旅程。村史馆内"闯关东第一村"展区以大量老照片和实物，再现了那段波澜壮阔的移民史。</p >
+      < img src="https://bfasdbcahbasdbf.github.io/beiyingzi/museum-chuangguandong.jpg" alt="闯关东第一村展区" onclick="show(this.src)">
+    </div>
+  </details>
 
-            <div class="feature-row fade-in">
-                <div class="feature-img">
-                    <img src="./mantanghong.jpg" alt="满堂红满族文化空间">
-                </div>
-                <div class="feature-content">
-                    <h3>满族风情</h3>
-                    <p>北营子村满族人口占65%，满族文化风情浓郁。村内"满堂红"等满族风情空间青砖黛瓦、飞檐斗拱，箭弩骑具、碑文原拓、满族刺绣等文史元素生动融入日常。</p>
-                    <ul class="feature-list">
-                        <li>满族风情大院：明清建筑风格，满族老物件陈列</li>
-                        <li>"满堂红"：满族文化展示与餐饮体验空间</li>
-                        <li>传统美食：山海关荤锅、八大碗、桲椤叶饼</li>
-                    </ul>
-                </div>
-            </div>
+  <details>
+    <summary>🏡 长城人家民宿 <span class="arrow">▶</span></summary>
+    <div class="content">
+      <p>依托长城国家文化公园建设，北营子村打造"长城人家"特色文化主题村落，将长城文化与墙画相结合。现有特色精品民宿12家，床位数十张，为游客提供长城脚下的生活体验。</p >
+      <ul>
+        <li>12家特色精品民宿，白墙灰瓦古香古色</li>
+        <li>大食堂、农家院等各类餐饮饭店</li>
+        <li>融合传统与现代的"砖居"等主题小院</li>
+      </ul>
+      <p>山海关长城风景道穿村而过，全长10公里，总投资1.35亿元，串联起古城、角山景区及沿线村庄。</p >
+      < img src="https://bfasdbcahbasdbf.github.io/beiyingzi/culture-wall.jpg" alt="长城人家文化墙" onclick="show(this.src)">
+    </div>
+  </details>
 
-            <div class="feature-row reverse fade-in">
-                <div class="feature-img">
-                    <img src="./museum-chuangguandong.jpg" alt="闯关东第一村展区">
-                </div>
-                <div class="feature-content">
-                    <h3>闯关东文化</h3>
-                    <p>北营子村历史上被称为"闯关东第一村"。无数人从这里出关北上，踏上闯关东的艰辛旅程。村史馆内"闯关东第一村"展区以大量老照片和实物，再现了那段波澜壮阔的移民史。</p>
-                    <ul class="feature-list">
-                        <li>"闯关东第一村"主题展：老照片、老物件真实再现</li>
-                        <li>村史馆记录闯关东历史脉络</li>
-                        <li>长城内外移民文化的交汇见证</li>
-                    </ul>
-                </div>
-            </div>
+  <details>
+    <summary>📚 文化遗存 <span class="arrow">▶</span></summary>
+    <div class="content">
+      <h4>北营子村村史馆</h4>
+      <p>秦皇岛市首家经专家认证的村级史馆，青砖灰瓦的农家院落内收藏石碑、石臼、墙基石、长城砖等实物，设有"北翼风云""北营过往""汉风满韵""浅山福地"四个展区。</p >
+      < img src="https://bfasdbcahbasdbf.github.io/beiyingzi/museum-outside.jpg" alt="村史馆外观" onclick="show(this.src)">
+      < img src="https://bfasdbcahbasdbf.github.io/beiyingzi/museum-beiying.jpg" alt="北营过往展区" onclick="show(this.src)">
+      <h4>山海关长城书院</h4>
+      <p>长城沿线新时代文明实践带的重要组成部分，青砖黛瓦与长城文化相得益彰，是传播长城文化、弘扬民族精神的文化地标。</p >
+      < img src="https://bfasdbcahbasdbf.github.io/beiyingzi/academy.jpg" alt="山海关长城书院" onclick="show(this.src)">
+      <h4>战备地道</h4>
+      <p>村内保留有战备地道遗址，地道纵横交错，见证了北营子村在不同历史阶段的独特记忆。</p >
+    </div>
+  </details>
 
-            <div class="feature-row fade-in">
-                <div class="feature-img">
-                    <img src="./culture-wall.jpg" alt="长城人家·北营子文化墙">
-                </div>
-                <div class="feature-content">
-                    <h3>长城人家民宿</h3>
-                    <p>北营子村积极打造"长城人家"特色文化主题村落，将长城文化与墙画相结合，发展多元化旅游新业态。现有特色精品民宿12家，床位数十张，为游客提供长城脚下的生活体验。</p>
-                    <ul class="feature-list">
-                        <li>12家特色精品民宿，白墙灰瓦古香古色</li>
-                        <li>大食堂、农家院等各类餐饮饭店</li>
-                        <li>融合传统与现代的"砖居"等主题小院</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 数据统计 -->
-    <section class="stats">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <h3>80户</h3>
-                    <p>全村户籍</p>
-                </div>
-                <div class="stat-item">
-                    <h3>230人</h3>
-                    <p>常住人口</p>
-                </div>
-                <div class="stat-item">
-                    <h3>65%</h3>
-                    <p>满族人口</p>
-                </div>
-                <div class="stat-item">
-                    <h3>600年</h3>
-                    <p>长城历史</p>
-                </div>
-                <div class="stat-item">
-                    <h3>12家</h3>
-                    <p>精品民宿</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 文化遗存 -->
-    <section class="section heritage-section" id="heritage">
-        <div class="container">
-            <div class="section-header fade-in">
-                <h2>文化遗存</h2>
-                <div class="divider"></div>
-                <p>历史留下的珍贵印记</p>
-            </div>
-            <div class="heritage-grid">
-                <div class="heritage-card fade-in">
-                    <img src="./museum-outside.jpg" alt="北营子村村史馆外观" class="heritage-img">
-                    <h4>📚 北营子村村史馆</h4>
-                    <p>秦皇岛市首家经专家认证的村级史馆，坐落于寻常农家院落。青砖灰瓦的院落外观古朴典雅，馆内收藏石碑、石臼、墙基石、长城砖等实物，设有"北翼风云""北营过往""汉风满韵""浅山福地"四个展区。</p>
-                </div>
-                <div class="heritage-card fade-in fade-in-delay-1">
-                    <img src="./museum-beiying.jpg" alt="村史馆北营过往展区" class="heritage-img">
-                    <h4>🏯 北营过往展</h4>
-                    <p>村史馆内"北营过往"展区以丰富的图文资料和实物展品，系统展示了北营子村从明代北翼城到现代美丽乡村的历史变迁，是了解村庄历史的重要窗口。</p>
-                </div>
-                <div class="heritage-card fade-in fade-in-delay-2">
-                    <img src="./academy.jpg" alt="山海关长城书院" class="heritage-img">
-                    <h4>📖 山海关长城书院</h4>
-                    <p>长城沿线新时代文明实践带的重要组成部分，青砖黛瓦的建筑风格与长城文化相得益彰，是长城党建示范带上的文化地标，承载着传播长城文化、弘扬民族精神的重要使命。</p>
-                </div>
-                <div class="heritage-card fade-in fade-in-delay-3">
-                    <h4>🕳️ 战备地道</h4>
-                    <p>村内保留有战备地道遗址，是特殊历史时期的重要遗存。地道纵横交错，见证了北营子村在不同历史阶段的独特记忆，具有极高的历史教育价值。</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 长城故事 -->
-    <section class="section story-section" id="story">
-        <div class="container">
-            <div class="section-header fade-in">
-                <h2>长城故事</h2>
-                <div class="divider"></div>
-                <p>城墙下的岁月回响</p>
-            </div>
-            <div class="story-content fade-in">
-                <div class="story-quote">
-                    我们村汇集长城文化、满族文化和闯关东文化，这些是我们发展的宝贵资源。长城文化是我们村发展旅游的根与魂。
-                    <br><br>
-                    <span style="font-size:0.9em; color:#999; font-style:normal;">—— 北营子村党支部书记 李成锁</span>
-                </div>
-                <div class="story-text">
-                    <p>北营子村的发展与山海关建关设卫的历史密不可分。最早可追溯到明代，这里原为山海关军事防御体系中的北翼城。明代后期，朝廷修建南翼城、北翼城，形成"一体两翼、前拱后卫"的格局，成为保卫京东门户的一道安全屏障。</p>
-                    <p style="margin-top:1rem;">1644年，甲申年山海关大战中，北翼城曾是激烈争夺的战场。明清易代的历史风云在此激荡，铁甲已化为历史的尘埃，但那些满族驻兵的后裔却留在了这里，他们同汉族同胞共同生活，交织出"长城脚下第一村"的独特风貌。</p>
-                    <p style="margin-top:1rem;">历史上，北营子村还有"闯关东第一村"之称。无数人从这里出关北上，踏上闯关东的艰辛旅程。村史馆里，一个个老物件、一张张老照片、一份份史料，展示了北营子村从北翼城到现代村落的变迁。</p>
-                    <p style="margin-top:1rem;">如今，山海关中国长城博物馆在村北约1公里处拔地而起，长城风景道穿村而过。北营子村正乘着乡村振兴和文旅发展的政策春风，从昔日长城北翼城焕发出欣欣向荣的蓬勃生机。</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 页脚 -->
-    <footer id="contact">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">🏯 北营子村</div>
-                <p class="footer-tagline">长城脚下第一村 · 明长城 · 满族风情 · 闯关东</p>
-                <div class="footer-links">
-                    <a href="#greatwall">明长城</a>
-                    <a href="#overview">村庄概况</a>
-                    <a href="#features">特色亮点</a>
-                    <a href="#heritage">文化遗存</a>
-                    <a href="#story">长城故事</a>
-                </div>
-                <div class="copyright">
-                    <p>© 2026 北营子村村民委员会 版权所有</p>
-                    <p>河北省秦皇岛市山海关区孟姜镇 · 山海关中国长城博物馆南约1公里</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-        const statNumbers = document.querySelectorAll('.stat-item h3');
-        const statsSection = document.querySelector('.stats');
-      let animated = false;
-
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !animated) {
-                    animated = true;
-                    statNumbers.forEach(num => {
-                        const finalText = num.textContent;
-                        const numericValue = parseInt(finalText.replace(/[^0-9]/g, ''));
-                        let current = 0;
-                        const increment = numericValue / 60;
-                        const timer = setInterval(() => {
-                            current += increment;
-                            if (current >= numericValue) {
-                                num.textContent = finalText;
-                                clearInterval(timer);
-                            } else {
-                                num.textContent = Math.floor(current) + finalText.replace(/[0-9]/g, '');
-                            }
-                        }, 25);
-                    });
-                }
-            });
-        }, { threshold: 0.5 });
-
-        statsObserver.observe(statsSection);
-    </script>
+  <details open>
+    <summary>📷 村景掠影 <span class="arrow">▶</span></summary>
+    <div class="content">
+      <p>村口地标"长城人家·北营子"石刻：</p >
+      < img src="https://bfasdbcahbasdbf.github.io/beiyingzi/stone.jpg" alt="村口石刻" onclick="show(this.src)">
+      <p style="font-size:12px;color:#aaa;">提示：以上照片引用自项目仓库，建议下载到本地 photos 文件夹后改用本地路径（和队友网站保持一致）。点照片可放大。</p >
+    </div>
+  </details
+<div class="map-entry"
+onclick="location.href='map-amap.htm
+1'">
+<h3>y
+地图导览</h3>
+<p>村内导览·角山登长城·山海关中国
+长城博物馆路线（点我）</p >
+</div>
+</div>
+<div id="lightbox"
+onclick="this.classList.remove('show
+')">
+< img id="lightbox-img" sIc=""
+alt="放大">
+</div>
+<script>
+function show(src){
+document.getElementById('lightbox-im
+g').src = src;
+document.getElementById('lightbox').
+classList.add('show');
+}
+</script>
 </body>
 </html>
+
+
+    
